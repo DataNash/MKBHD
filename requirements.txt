@@ -1,0 +1,11 @@
+pandas
+streamlit
+seaborn
+matplotlib
+numpy
+torch
+transformers
+nltk
+setfit
+requests
+youtube_transcript_api

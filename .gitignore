@@ -1,0 +1,8 @@
+mkbhdModularised/
+node_modules/
+.env
+*.log
+build/
+dist/
+venv/
+*.pyc
