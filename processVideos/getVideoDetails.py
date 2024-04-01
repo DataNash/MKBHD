@@ -10,8 +10,8 @@ load_dotenv()
 import streamlit as st
 formatter = JSONFormatter()
 
-#api_key = os.getenv("API_KEY")
-api_key = st.secrets["api_key"] # new api method
+api_key = os.getenv("API_KEY")
+#api_key = st.secrets["api_key"] # new api method
 
 def getVidDetails(video_id):
     """
