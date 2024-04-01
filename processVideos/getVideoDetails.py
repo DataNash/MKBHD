@@ -12,6 +12,7 @@ formatter = JSONFormatter()
 
 api_key = os.getenv("API_KEY")
 #api_key = st.secrets["api_key"] # new api method
+api_key='AIzaSyCJvI_udalHYzy-qr7CcFYYOA6Rcqh_P2o'
 
 def getVidDetails(video_id):
     """
