@@ -11,102 +11,51 @@ load_dotenv()
 formatter = JSONFormatter()
 api_key = os.getenv("API_KEY")
 
-# def getVidDetails(video_id):
-#     """
-#     Fetches video metadata, statistics, and transcript from the YouTube Data API v3.
+def getVidDetails(video_id):
+    """
+    Fetches video metadata, statistics, and transcript from the YouTube Data API v3.
     
-#     Parameters:
-#     - video_id (str): The YouTube video ID.
-#     - api_key (str): The API key to authenticate with the YouTube API.
+    Parameters:
+    - video_id (str): The YouTube video ID.
+    - api_key (str): The API key to authenticate with the YouTube API.
     
-#     Returns:
-#     - dict: A dictionary containing video details like title, publish date, statistics, 
-#             max resolution thumbnail, and the video transcript.
-#     """
-#     base_url = "https://www.googleapis.com/youtube/v3/videos"
-#     params = {
-#         "part": "snippet,statistics", # Fetches statistics
-#         "id": video_id, 
-#         "key": api_key
-#     }
-
-#     response = requests.get(base_url, params=params)
-#     data = response.json()
-    
-#     # Check if the 'items' key exists in the API response
-#     if not data.get("items"):
-#         print("Error:", data)
-#         return None
-    
-#     title = data["items"][0]["snippet"]["title"]
-#     published_at = data["items"][0]["snippet"]["publishedAt"]
-#     statistics = data["items"][0]["statistics"]
-    
-#     # Get the max resolution thumbnail
-#     thumbnails = data["items"][0]["snippet"]["thumbnails"]
-#     maxres_thumbnail = thumbnails.get("maxres", {}).get("url")
-#     if not maxres_thumbnail:
-#         # Fallback to other resolutions if maxres is not available
-#         maxres_thumbnail = thumbnails.get("high", {}).get("url") or thumbnails.get("medium", {}).get("url")
-
-#     # Get the transcript
-#     try:
-#         transcript = YouTubeTranscriptApi.get_transcript(video_id)
-#         formatted_transcript = formatter.format_transcript(transcript)
-#         print(formatted_transcript)
-#     except:
-#         formatted_transcript = None
-
-#     return {
-#         "videoId": video_id,
-#         "title": title,
-#         "publishedAt": published_at,
-#         "statistics": statistics,
-#         "maxresThumbnail": maxres_thumbnail,
-#         "transcript": formatted_transcript
-#     }
-
-
-def getVidDetails(video_id, api_key):
+    Returns:
+    - dict: A dictionary containing video details like title, publish date, statistics, 
+            max resolution thumbnail, and the video transcript.
+    """
     base_url = "https://www.googleapis.com/youtube/v3/videos"
     params = {
-        "part": "snippet,statistics",
+        "part": "snippet,statistics", # Fetches statistics
         "id": video_id, 
         "key": api_key
     }
 
     response = requests.get(base_url, params=params)
-    
-    # Check the response status code
-    if response.status_code != 200:
-        print(f"Error fetching video details: {response.status_code} - {response.text}")
-        return None
-
     data = response.json()
-
-    # Check if the 'items' key exists and has content
+    
+    # Check if the 'items' key exists in the API response
     if not data.get("items"):
-        print("No video found with the given ID.")
+        print("Error:", data)
         return None
-
-    video_data = data["items"][0]
-    snippet = video_data["snippet"]
-    title = snippet["title"]
-    published_at = snippet["publishedAt"]
-    statistics = video_data.get("statistics", {})
-
+    
+    title = data["items"][0]["snippet"]["title"]
+    published_at = data["items"][0]["snippet"]["publishedAt"]
+    statistics = data["items"][0]["statistics"]
+    
     # Get the max resolution thumbnail
-    thumbnails = snippet.get("thumbnails", {})
-    maxres_thumbnail = thumbnails.get("maxres", {}).get("url", thumbnails.get("high", {}).get("url", thumbnails.get("medium", {}).get("url")))
+    thumbnails = data["items"][0]["snippet"]["thumbnails"]
+    maxres_thumbnail = thumbnails.get("maxres", {}).get("url")
+    if not maxres_thumbnail:
+        # Fallback to other resolutions if maxres is not available
+        maxres_thumbnail = thumbnails.get("high", {}).get("url") or thumbnails.get("medium", {}).get("url")
 
     # Get the transcript
-    formatted_transcript = None
     try:
         transcript = YouTubeTranscriptApi.get_transcript(video_id)
-        # Assuming 'formatter.format_transcript' is a function you've defined elsewhere
         formatted_transcript = formatter.format_transcript(transcript)
-    except Exception as e:
-        print(f"Error fetching transcript: {e}")
+        print(formatted_transcript)
+    except:
+        formatted_transcript = None
 
     return {
         "videoId": video_id,
@@ -116,7 +65,6 @@ def getVidDetails(video_id, api_key):
         "maxresThumbnail": maxres_thumbnail,
         "transcript": formatted_transcript
     }
-
 
 import time
 
