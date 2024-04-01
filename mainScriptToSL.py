@@ -10,6 +10,7 @@ from Visualisations.Visualisations import createStreamLitChart
 def assessLinks(linkOrLinks, Brand=None, Phone=None):
     print("Evidently I am assessing.")
     metadata = videoMetaData(linkOrLinks)
+    #metadata['Brand']
     punctuatedTranscript = punctuate_transcripts_in_dataframe(metadata)
     punctuatedTranscript['semantically_replaced_transcript']  = punctuatedTranscript['semantically_replaced_transcript'].astype(str)
     punctuatedTranscript['predictions'] = punctuatedTranscript['semantically_replaced_transcript'].apply(getThemeAndSentiment)
@@ -20,7 +21,7 @@ def assessLinks(linkOrLinks, Brand=None, Phone=None):
     else :
         finalDF['Brand'] = Brand
         finalDF['Phone'] = Phone
-    #finalDF.to_excel(r'C:\Users\panas\OneDrive\Desktop\DataScience\PersonalProjects\MKBHDModularised\output.xlsx')
+
     print("I gave the label bills bills bills.")
     return finalDF
 
@@ -60,6 +61,11 @@ with makeColumn:
         placeholder= "E.g. S23 Ultra"
     )
 
+
+# Use session state to store which button was pressed
+if 'chart_to_show' not in st.session_state:
+    st.session_state['chart_to_show'] = None    
+    
 # Define callback functions for each button
 def show_sentiment_video():
     st.session_state['chart_to_show'] = 'sentiment_video'
@@ -76,20 +82,32 @@ def show_sentiment_analysis():
 def show_comments():
     st.session_state['chart_to_show'] = 'comments'
 
-# Use session state to store which button was pressed
-if 'chart_to_show' not in st.session_state:
-    st.session_state['chart_to_show'] = None    
 
 # Initialize session state for the DataFrame and chart to show
 if 'dataframe' not in st.session_state:
     st.session_state['dataframe'] = pd.DataFrame()
-if 'chart_to_show' not in st.session_state:
-    st.session_state['chart_to_show'] = None
+
 
 
 if st.button('Assess Link'):
     # Call your function with the user inputs sd
-    st.session_state['dataframe'] = assessLinks(linkInput, Brand=brandInput, Phone=makeInput)
+    video_info = [
+        {'link': linkInput, 'Brand': brandInput, 'Phone': makeInput}]
+    if linkInput2:  # Add second video info if it exists
+        video_info.append({'link': linkInput2, 'Brand': brandInput2, 'Phone': makeInput2})
+    all_dfs = []
+    import time
+    
+    st.progress(10)
+    with st.spinner('Wait for it...'):    
+            time.sleep(10)
+    
+    for video in video_info:
+        
+        df = assessLinks(video['link'], Brand=video['Brand'], Phone=video['Phone'])
+        all_dfs.append(df)
+    st.session_state['dataframe'] = pd.concat(all_dfs, ignore_index=True)
+    st.balloons()
     print(st.session_state['dataframe'])
     
 col1, col2, col3, col4, col5 = st.columns(5)
@@ -104,26 +122,30 @@ with col4:
 with col5:
     st.button('Comments', on_click=show_comments)
 
-p, graph_col, _ = st.columns([0.4,1.3, 0.4])  # Adjust the ratio as needed
+link = 'https://public.tableau.com/app/profile/panashe.mundondo/viz/MKBHDPhoneReviewAnalysis/Story1'
+link_text = "here"  # The text to display as the hyperlink
+full_link = f"[{link_text}]({link})"
+
+p, graph_col, _ = st.columns([0.4, 1.3, 0.4])  # Adjust the ratio as needed
 with graph_col:
     if st.session_state['chart_to_show'] == 'emotion':
         createStreamLitChart(st.session_state['dataframe'], 'emotion')
-        st.write("The above bar chart shows the most frequently occuring \n emotions in the video.")
-        st.write("To view more aestethic charts that give more control check out my Tableau dashboard {link}.")
+        st.write("The above bar chart shows the most frequently occurring emotions in the video.")
+        st.markdown(f"To view more aesthetic charts that give more control check out my Tableau dashboard {full_link}.", unsafe_allow_html=True)
     elif st.session_state['chart_to_show'] == 'sentiment_video':
         createStreamLitChart(st.session_state['dataframe'], 'Sentiment Number')
         st.write("The above line chart shows the chronological sentiment development of the video.")
-        st.write("To view more aestethic charts that give more control check out my Tableau dashboard {link}.")
+        st.markdown(f"To view more aesthetic charts that give more control check out my Tableau dashboard {full_link}.", unsafe_allow_html=True)
     elif st.session_state['chart_to_show'] == 'pillars':
         createStreamLitChart(st.session_state['dataframe'], 'theme')
-        st.write("The above bar chart shows the most frequently occuring topics in the video.")
-        st.write("To view more aestethic charts that give more control check out my Tableau dashboard {link}.")
+        st.write("The above bar chart shows the most frequently occurring topics in the video.")
+        st.markdown(f"To view more aesthetic charts that give more control check out my Tableau dashboard {full_link}.", unsafe_allow_html=True)
     elif st.session_state['chart_to_show'] == 'sentiment_analysis':
         createStreamLitChart(st.session_state['dataframe'], 'Scaled Sentiment')
-        st.write("The above bar chart shows the most frequently occuring Sentiment in the video.")
-        st.write("To view more aestethic charts that give more control check out my Tableau dashboard {link}.")
+        st.write("The above bar chart shows the most frequently occurring Sentiment in the video.")
+        st.markdown(f"To view more aesthetic charts that give more control check out my Tableau dashboard {full_link}.", unsafe_allow_html=True)
     elif st.session_state['chart_to_show'] == 'comments':
         createStreamLitChart(st.session_state['dataframe'], 'batch_text')
         st.write("The above spreadsheet displays the sentences in the script, their assigned emotion and which pillar (if any) it falls under.")
-        st.write("To view more aestethic charts that give more control check out my Tableau dashboard {link}.")
+        st.markdown(f"To view more aesthetic charts that give more control check out my Tableau dashboard {full_link}.", unsafe_allow_html=True)
 
