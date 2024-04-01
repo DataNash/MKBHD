@@ -6,3 +6,4 @@ build/
 dist/
 venv/
 *.pyc
+mkbhd_sentiment/
