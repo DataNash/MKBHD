@@ -9,3 +9,5 @@ nltk
 setfit
 requests
 youtube_transcript_api
+nltk
+python_dotenv

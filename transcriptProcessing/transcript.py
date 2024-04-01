@@ -5,6 +5,8 @@ import ast
 from transformers import DistilBertTokenizerFast, DistilBertForTokenClassification
 import os
 os.environ['TF_CPP_MIN_LOG_LEVEL'] = '2'  # Suppress TensorFlow logging (1: INFO, 2: WARNING, 3: ERROR)
+import nltk
+#nltk.download('punkt')
 
 # Now initialize TensorFlow or import your TensorFlow-based module
 
