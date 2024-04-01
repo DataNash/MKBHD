@@ -9,6 +9,7 @@ from dotenv import load_dotenv
 load_dotenv() 
 
 formatter = JSONFormatter()
+
 api_key = os.getenv("API_KEY")
 
 def getVidDetails(video_id):
