@@ -8,21 +8,16 @@ from sentimentXthemes.reviewTheme import getThemeAndSentiment, flattenPrediction
 from Visualisations.Visualisations import createStreamLitChart
 
 def assessLinks(linkOrLinks, Brand=None, Phone=None):
-    print("Evidently I am assessing.")
     metadata = videoMetaData(linkOrLinks)
-    #metadata['Brand']
     punctuatedTranscript = punctuate_transcripts_in_dataframe(metadata)
     punctuatedTranscript['semantically_replaced_transcript']  = punctuatedTranscript['semantically_replaced_transcript'].astype(str)
     punctuatedTranscript['predictions'] = punctuatedTranscript['semantically_replaced_transcript'].apply(getThemeAndSentiment)
     finalDF = flattenPredictions(punctuatedTranscript)
-    print(finalDF)
     if Brand and Phone is None:
         pass    
     else :
         finalDF['Brand'] = Brand
         finalDF['Phone'] = Phone
-
-    print("I gave the label bills bills bills.")
     return finalDF
 
 import streamlit as st

@@ -93,17 +93,10 @@ def multipleVideoDetails(video_ids): #add your api key
 
 import streamlit as st
 def flattenColumn(df, column = 'statistics'):
-    #statsDF = pd.json_normalize(df['statistics'])
-    #st.dataframe(df)
-   # print(df.columns, "<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<")
-   # print(df[column])
     statsDF = pd.json_normalize(df[column])
-    print(statsDF, "<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>")
     # Merge the flattened DataFrame with the original DataFrame
     df = df.join(statsDF)
-    print(df.head())
     df['publishedAt'] = pd.to_datetime(df['publishedAt']).dt.strftime('%d/%m/%Y')
-
     # Drop the original 'statistics' column
     df.drop('statistics', axis=1, inplace=True)
     return df
@@ -115,7 +108,6 @@ def videoMetaData(oneOrMoreLinks):
         videoID = IDFromLink(oneOrMoreLinks)
         holderList = [videoID]
         videoData = multipleVideoDetails(holderList)[0]
-        print(type(videoData))
         videoData = flattenColumn(videoData)
         return videoData
     elif isinstance(oneOrMoreLinks, list):
@@ -123,9 +115,6 @@ def videoMetaData(oneOrMoreLinks):
         for i in oneOrMoreLinks:
             i = IDFromLink(i)
             linksToURL.append(i)
-        print("links to urls", linksToURL)
         details = multipleVideoDetails(linksToURL)[0]
-        print(type(details))
         details = flattenColumn(details)
-        print(details)
         return details

@@ -4,7 +4,6 @@ def readDataFromExcel(pathToFile):
     targetFile = pd.read_excel(pathToFile)
     mainDf = targetFile.rename(columns={'Phone':'Make'})
     mainDf['Phone'] = mainDf['Brand'].astype(str) + " " + mainDf['Make'].astype(str)
-    print(mainDf)
 
 def IDFromLink(url):
     # Check if 'v=' is in the URL
@@ -35,6 +34,3 @@ def userinput():
     df = pd.DataFrame(dfData)
     print(df)
     return df
-
-#userinput()
-#x=readDataFromExcel(r'C:\Users\panas\OneDrive\Desktop\DataScience\PersonalProjects\MKBHDModularised\SourceCode\VideosToAssess.xlsx')

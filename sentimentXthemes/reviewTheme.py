@@ -44,10 +44,7 @@ def getThemeAndSentiment(transcript):
             emotions = []
             for chunk in chunks:
                 chunk_text = tokenizer_for_length.convert_tokens_to_string(chunk)
-                
-                # Print the chunk text being processed
-                print(f"Processing chunk: {chunk_text}")
-                
+              
                 # Predict theme
                 theme_pred = model([chunk_text])  
                 themes.append(map_int_to_label(theme_pred[0].item()))
