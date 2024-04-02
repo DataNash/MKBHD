@@ -24,7 +24,7 @@ def assessLinks(linkOrLinks, Brand=None, Phone=None):
     else :
         finalDF['Brand'] = Brand
         finalDF['Phone'] = Phone
-    finalDF.to_excel(r'C:\Users\panas\OneDrive\Desktop\DataScience\PersonalProjects\MKBHDModularised\outputS23.xlsx')
+    #finalDF.to_excel(r'C:\Users\panas\OneDrive\Desktop\DataScience\PersonalProjects\MKBHDModularised\outputS23.xlsx')
     return finalDF
 
-#assessLinks('https://www.youtube.com/watch?v=zhoTX0RRXPQ&t=4s&pp=ygUWbWtiaGQgZ2FsYXh5IHMyMyB1bHRyYQ%3D%3D', Brand='Samsung', Phone ='S23 Ultra')
+assessLinks('https://www.youtube.com/watch?v=zhoTX0RRXPQ&t=4s&pp=ygUWbWtiaGQgZ2FsYXh5IHMyMyB1bHRyYQ%3D%3D', Brand='Samsung', Phone ='S23 Ultra')

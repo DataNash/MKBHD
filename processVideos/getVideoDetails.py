@@ -7,7 +7,6 @@ from ReadData.readData import IDFromLink
 import os
 from dotenv import load_dotenv
 load_dotenv() 
-import streamlit as st
 formatter = JSONFormatter()
 
 api_key = os.getenv("API_KEY")
@@ -92,10 +91,16 @@ def multipleVideoDetails(video_ids): #add your api key
     # Return the DataFrame and the list of failed video IDs
     return df, failed_video_ids
 
+import streamlit as st
 def flattenColumn(df, column = 'statistics'):
+    st.dataframe(df)
+    print(df, "<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<")
+    print(df[column])
     statsDF = pd.json_normalize(df[column])
+    print(statsDF, "<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>")
     # Merge the flattened DataFrame with the original DataFrame
     df = df.join(statsDF)
+    print(df.head())
     df['publishedAt'] = pd.to_datetime(df['publishedAt']).dt.strftime('%d/%m/%Y')
 
     # Drop the original 'statistics' column
