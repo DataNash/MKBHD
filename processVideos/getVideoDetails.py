@@ -8,10 +8,10 @@ import os
 from dotenv import load_dotenv
 load_dotenv() 
 formatter = JSONFormatter()
+import streamlit as st
 
-#api_key = os.getenv("API_KEY")
-#api_key = st.secrets["api_key"] # new api method
-api_key='AIzaSyCJvI_udalHYzy-qr7CcFYYOA6Rcqh_P2o'
+
+api_key = st.secrets["api_key"]
 
 def getVidDetails(video_id):
     """
@@ -93,11 +93,11 @@ def multipleVideoDetails(video_ids): #add your api key
 
 import streamlit as st
 def flattenColumn(df, column = 'statistics'):
-    statsDF = pd.json_normalize(df['statistics'])
-  #  st.dataframe(df)
+    #statsDF = pd.json_normalize(df['statistics'])
+    st.dataframe(df)
    # print(df.columns, "<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<")
    # print(df[column])
-   # statsDF = pd.json_normalize(df[column])
+    statsDF = pd.json_normalize(df[column])
     print(statsDF, "<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>")
     # Merge the flattened DataFrame with the original DataFrame
     df = df.join(statsDF)
