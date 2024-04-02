@@ -94,7 +94,7 @@ def multipleVideoDetails(video_ids): #add your api key
 import streamlit as st
 def flattenColumn(df, column = 'statistics'):
     #statsDF = pd.json_normalize(df['statistics'])
-    st.dataframe(df)
+    #st.dataframe(df)
    # print(df.columns, "<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<")
    # print(df[column])
     statsDF = pd.json_normalize(df[column])
