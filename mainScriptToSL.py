@@ -22,6 +22,14 @@ def assessLinks(linkOrLinks, Brand=None, Phone=None):
 
 import streamlit as st
 st.set_page_config(layout="wide")
+st.subheader("Instructions")
+st.write("1. Input the link to any MKBHD review*")
+st.write("2. Input the Brand of the phone and the specific make.")
+st.write("3. Hit 'Assess Link' and wait until the balloons appear (~30s)")
+st.write("4. Hit on of the buttons e.g. 'Sentiment Analysis' to explore results")
+st.write("*To compare 2 phones in a 'versus' mode input a link, brand and make into the secondary boxes.")
+
+
 linkColumn, brandColumn, makeColumn = st.columns(3)
 
 with linkColumn:

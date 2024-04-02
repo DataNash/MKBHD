@@ -13,6 +13,7 @@ import streamlit as st
 
 api_key = st.secrets["api_key"]
 
+
 def getVidDetails(video_id):
     """
     Fetches video metadata, statistics, and transcript from the YouTube Data API v3.
