@@ -67,7 +67,7 @@ def getVidDetails(video_id):
         "maxresThumbnail": maxres_thumbnail,
         "transcript": formatted_transcript
     }
-
+#
 import time
 
 def multipleVideoDetails(video_ids): #add your api key
@@ -94,7 +94,7 @@ def multipleVideoDetails(video_ids): #add your api key
 import streamlit as st
 def flattenColumn(df, column = 'statistics'):
     st.dataframe(df)
-    print(df, "<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<")
+    print(df.columns, "<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<")
     print(df[column])
     statsDF = pd.json_normalize(df[column])
     print(statsDF, "<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>")

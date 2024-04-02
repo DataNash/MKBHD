@@ -100,7 +100,7 @@ if st.button('Assess Link'):
     
     st.progress(10)
     with st.spinner('Wait for it...'):    
-            time.sleep(10)
+            time.sleep(15)
     
     for video in video_info:
         
