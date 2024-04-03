@@ -2,6 +2,7 @@ import streamlit as st
 import pandas as pd
 import seaborn as sns
 import matplotlib.pyplot as plt
+import streamlit.components.v1 as components
 
 
 def set_plot_style():
@@ -80,3 +81,26 @@ def createStreamLitChart(df, column):
         df = df[['batch_text', 'emotion', 'theme']]
         use_container_width = st.checkbox("Use container width", value=False, key="use_container_width")
         st.dataframe(df, use_container_width=use_container_width)
+
+def ChangeButtonColour(widget_label, font_color, background_color='transparent', font_size='16px'):
+    html_str = f"""
+        <style>
+            button {{
+                font-size: {font_size} !important;
+            }}
+        </style>
+        <script>
+            var elements = window.parent.document.querySelectorAll('button');
+            for (var i = 0; i < elements.length; ++i) {{ 
+                if (elements[i].innerText.includes('{widget_label}')) {{ 
+                    elements[i].style.color = '{font_color}';
+                    elements[i].style.background = '{background_color}';
+                    elements[i].style.padding = '30px 60px';  // Increase padding for a bigger button
+                    elements[i].style.borderRadius = '5px';  // Rounded corners
+                }}
+            }}
+        </script>
+    """
+    components.html(html_str, height=0, width=0)
+
+# Your existing Streamlit app setup...
